@@ -1,9 +1,11 @@
 package com.ltfullstack.employeeservice.command.controller;
 
 import com.ltfullstack.employeeservice.command.command.CreateEmployeeComand;
+import com.ltfullstack.employeeservice.command.command.DeleteEmployeeComand;
 import com.ltfullstack.employeeservice.command.command.UpdateEmployeeComand;
 import com.ltfullstack.employeeservice.command.model.CreateEmployeeModel;
 import com.ltfullstack.employeeservice.command.model.UpdateEmployeeModel;
+import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +32,14 @@ public class EmployeeCommandController {
     public String updateEmployee(@Valid @RequestBody UpdateEmployeeModel model, @PathVariable String employeeId){
         UpdateEmployeeComand command = new UpdateEmployeeComand(employeeId, model.getFirstname(), model.getLastname(), model.getKin(), model.getIsDisciplined());
         return commandGateway.sendAndWait(command);
+    }
+    @DeleteMapping("/{employeeId}")
+    public String deleteEmployee(@PathVariable String employeeId){
+        DeleteEmployeeComand comand = new DeleteEmployeeComand(employeeId);
+       return commandGateway.sendAndWait(comand);
+    }
+    @PostConstruct
+    public void init() {
+        System.out.println("EmployeeController LOADED");
     }
 }

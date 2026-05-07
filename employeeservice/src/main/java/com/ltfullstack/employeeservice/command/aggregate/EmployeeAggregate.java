@@ -1,8 +1,10 @@
 package com.ltfullstack.employeeservice.command.aggregate;
 
 import com.ltfullstack.employeeservice.command.command.CreateEmployeeComand;
+import com.ltfullstack.employeeservice.command.command.DeleteEmployeeComand;
 import com.ltfullstack.employeeservice.command.command.UpdateEmployeeComand;
 import com.ltfullstack.employeeservice.command.event.EmployeeCreateEvent;
+import com.ltfullstack.employeeservice.command.event.EmployeeDeleteEvent;
 import com.ltfullstack.employeeservice.command.event.EmployeeUpdateEvent;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
@@ -36,6 +38,13 @@ public class EmployeeAggregate {
         AggregateLifecycle.apply(event);
     }
 
+    @CommandHandler
+    public void handle(DeleteEmployeeComand comnand){
+        EmployeeDeleteEvent event = new EmployeeDeleteEvent();
+        BeanUtils.copyProperties(comnand, event);
+        AggregateLifecycle.apply(event);
+    }
+
     @EventSourcingHandler
     public void on(EmployeeCreateEvent event){
         this.id = event.getId();
@@ -52,5 +61,9 @@ public class EmployeeAggregate {
         this.lastname = event.getLastname();
         this.kin = event.getKin();
         this.isDisciplined = event.getIsDisciplined();
+    }
+    @EventSourcingHandler
+    public void on(EmployeeDeleteEvent event){
+        this.id = event.getId();
     }
 }
