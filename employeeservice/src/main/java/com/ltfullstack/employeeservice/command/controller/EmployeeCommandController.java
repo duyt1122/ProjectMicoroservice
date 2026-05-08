@@ -5,6 +5,7 @@ import com.ltfullstack.employeeservice.command.command.DeleteEmployeeComand;
 import com.ltfullstack.employeeservice.command.command.UpdateEmployeeComand;
 import com.ltfullstack.employeeservice.command.model.CreateEmployeeModel;
 import com.ltfullstack.employeeservice.command.model.UpdateEmployeeModel;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -33,6 +34,7 @@ public class EmployeeCommandController {
         UpdateEmployeeComand command = new UpdateEmployeeComand(employeeId, model.getFirstname(), model.getLastname(), model.getKin(), model.getIsDisciplined());
         return commandGateway.sendAndWait(command);
     }
+    @Hidden
     @DeleteMapping("/{employeeId}")
     public String deleteEmployee(@PathVariable String employeeId){
         DeleteEmployeeComand comand = new DeleteEmployeeComand(employeeId);
