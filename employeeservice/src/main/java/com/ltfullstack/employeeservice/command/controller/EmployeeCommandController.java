@@ -8,6 +8,7 @@ import com.ltfullstack.employeeservice.command.model.UpdateEmployeeModel;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.web.bind.annotation.*;
 
