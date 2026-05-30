@@ -2,6 +2,7 @@ package com.learnmicroservice.bookservice.command.event;
 
 import com.learnmicroservice.bookservice.command.data.Book;
 import com.learnmicroservice.bookservice.command.data.BookRepository;
+import com.ltfullstack.commonservice.event.BookUpdateStatusEvent;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -43,5 +44,16 @@ public class BookEventHandler {
          Book book = optionalBook.get();
          bookRepository.delete(book);
      }
+    }
+
+    @EventHandler
+    public void on(BookUpdateStatusEvent event){
+        Optional<Book> oldBook = bookRepository.findById(event.getBookId());
+        oldBook.ifPresent(book -> {
+                    book.setIsRealy(event.getIsReady());
+                    bookRepository.save(book);
+                }
+        );
+
     }
 }

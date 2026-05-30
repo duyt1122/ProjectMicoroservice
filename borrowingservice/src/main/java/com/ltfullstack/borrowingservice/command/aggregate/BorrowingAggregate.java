@@ -1,7 +1,9 @@
 package com.ltfullstack.borrowingservice.command.aggregate;
 
 import com.ltfullstack.borrowingservice.command.command.CreateBorrowingComand;
+import com.ltfullstack.borrowingservice.command.command.DeleteBorrowingCommand;
 import com.ltfullstack.borrowingservice.command.event.BorrowingCreatedEvent;
+import com.ltfullstack.borrowingservice.command.event.BorrwingDeleteEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -34,6 +36,17 @@ public class BorrowingAggregate {
         BorrowingCreatedEvent event = new BorrowingCreatedEvent();
         BeanUtils.copyProperties(comand,event);
         AggregateLifecycle.apply(event);
+    }
+
+    @CommandHandler
+    public void handle(DeleteBorrowingCommand command){
+        BorrwingDeleteEvent event = new BorrwingDeleteEvent(command.getId());
+        AggregateLifecycle.apply(event);
+    }
+
+    @EventSourcingHandler
+    public void on(BorrwingDeleteEvent event){
+        this.id = event.getId();
     }
 
     @EventSourcingHandler

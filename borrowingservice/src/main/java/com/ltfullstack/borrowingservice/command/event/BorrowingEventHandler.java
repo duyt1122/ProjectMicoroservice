@@ -5,6 +5,9 @@ import com.ltfullstack.borrowingservice.command.data.BorrowingRepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 @Component
 public class BorrowingEventHandler {
 
@@ -22,5 +25,12 @@ public class BorrowingEventHandler {
         borrowing.setEmployeeId(event.getEmployeeId());
         borrowing.setBookId(event.getBookId());
         borrowingRepository.save(borrowing);
+    }
+
+    @EventHandler
+    public void on(BorrwingDeleteEvent event){
+        Optional<Borrowing> oldBorrowing = borrowingRepository.findById(event.getId());
+
+        oldBorrowing.ifPresent(borrowing -> borrowingRepository.delete(borrowing));
     }
 }
