@@ -1,10 +1,11 @@
 package com.ltfullstack.employeeservice.query.projection;
 
+import com.ltfullstack.commonservice.model.EmployeeResponseCommandModel;
 import com.ltfullstack.employeeservice.command.data.Employee;
 import com.ltfullstack.employeeservice.command.data.EmployeeRepository;
 import com.ltfullstack.employeeservice.query.model.EmployeeResponseModel;
 import com.ltfullstack.employeeservice.query.queries.GetAllEmployeeQuery;
-import com.ltfullstack.employeeservice.query.queries.GetDetailEmployeeModel;
+import com.ltfullstack.commonservice.queries.GetDetailEmployeeModel;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -31,9 +32,9 @@ public class EmployeeProjection {
     }
 
     @QueryHandler
-    public EmployeeResponseModel handle(GetDetailEmployeeModel model) throws Exception{
+    public EmployeeResponseCommandModel handle(GetDetailEmployeeModel model) throws Exception{
      Employee employee = employeeRepository.findById(model.getId()).orElseThrow(() -> new Exception("Employee not found"));
-     EmployeeResponseModel md = new EmployeeResponseModel();
+        EmployeeResponseCommandModel md = new EmployeeResponseCommandModel();
      BeanUtils.copyProperties(employee, md);
      return md;
     }

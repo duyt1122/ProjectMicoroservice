@@ -1,8 +1,9 @@
 package com.ltfullstack.employeeservice.query.controller;
 
+import com.ltfullstack.commonservice.model.EmployeeResponseCommandModel;
 import com.ltfullstack.employeeservice.query.model.EmployeeResponseModel;
 import com.ltfullstack.employeeservice.query.queries.GetAllEmployeeQuery;
-import com.ltfullstack.employeeservice.query.queries.GetDetailEmployeeModel;
+import com.ltfullstack.commonservice.queries.GetDetailEmployeeModel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,8 +48,8 @@ public class EmployeeQueryController {
     }
 
     @GetMapping("/{employeeId}")
-    public EmployeeResponseModel getDetailEmployee(@PathVariable String employeeId){
-        return queryGateway.query(new GetDetailEmployeeModel(employeeId), ResponseTypes.instanceOf(EmployeeResponseModel.class)).join();
+    public EmployeeResponseCommandModel getDetailEmployee(@PathVariable String employeeId){
+        return queryGateway.query(new GetDetailEmployeeModel(employeeId), ResponseTypes.instanceOf(EmployeeResponseCommandModel.class)).join();
     }
 
 }
